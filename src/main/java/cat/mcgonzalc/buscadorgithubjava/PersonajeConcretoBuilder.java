@@ -1,5 +1,7 @@
 package cat.mcgonzalc.buscadorgithubjava;
 
+import java.util.ArrayList;
+
 // Implementación concreta del Builder
 class PersonajeConcretoBuilder implements PersonajeBuilder {
     private Personaje personaje;
@@ -12,21 +14,48 @@ class PersonajeConcretoBuilder implements PersonajeBuilder {
     public void construirCaracteristicas() {
         personaje.setFuerza((int) (Math.random() * 16) + 3); // Tirada 3d6
         personaje.setDestreza((int) (Math.random() * 16) + 3); // Tirada 3d6
-        personaje.setConstitucion((int) (Math.random() * 16) + 3); // Tirada 3d6
+        personaje.setConstitucion((int) (int) (Math.random() * 16) + 3); // Tirada 3d6
         personaje.setInteligencia((int) (Math.random() * 16) + 3); // Tirada 3d6
         personaje.setSabiduria((int) (Math.random() * 16) + 3); // Tirada 3d6
         personaje.setCarisma((int) (Math.random() * 16) + 3); // Tirada 3d6
     }
 
     @Override
+    public void determinarClasesNoDisponible(ArrayList<String> clase)
+    {
+        clase.add("Clérigo");
+        clase.add("Elfo");
+        clase.add("Enano");
+        clase.add("Guerrero");
+        clase.add("Ladrón");
+        clase.add("Mago");
+        clase.add("Mediano");
+        //Comprobamos si cumple las características mínimas para ser un elfo
+        if (personaje.getInteligencia() < 9)
+        {
+            clase.remove("Elfo");
+        }
+        //Repetimos el proceso para un enano
+        else if (personaje.getConstitucion() < 9)
+        {
+            clase.remove("Enano");
+
+            //Comprobamos además si puede ser un mediano
+            if (personaje.getDestreza() < 9)
+            {
+                clase.remove("Mediano");
+            }
+        }
+    }
+    @Override
     public void elegirClase(String clase) {
         personaje.setClase(clase); // Se elige la clase desde la entrada del usuario
     }
 
-    @Override
-    public void apuntarModificadores() {
+    //@Override
+    //public void apuntarModificadores() {
         // Aquí se podría aplicar la lógica para sumar o restar modificadores según clase
-    }
+    //}
 
     @Override
     public void calcularPuntosGolpe() {
@@ -35,7 +64,7 @@ class PersonajeConcretoBuilder implements PersonajeBuilder {
             case "guerrero":
                 personaje.setPuntosGolpe((int) (Math.random() * 8) + 1); // Tirada d8
                 break;
-            case "clerigo":
+            case "clérigo":
                 personaje.setPuntosGolpe((int) (Math.random() * 6) + 1); // Tirada d6
                 break;
             case "ladrón":

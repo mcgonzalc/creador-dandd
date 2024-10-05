@@ -10,7 +10,7 @@ class DirectorPersonaje {
     public Personaje construirPersonaje(String nombre, String clase, String alineamiento) {
         builder.construirCaracteristicas();
         builder.elegirClase(clase);
-        builder.apuntarModificadores();
+        //builder.apuntarModificadores();
         builder.calcularPuntosGolpe();
         builder.elegirAlineamiento(alineamiento);
         builder.apuntarClaseArmadura();
